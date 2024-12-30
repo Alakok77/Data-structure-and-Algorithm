@@ -17,7 +17,7 @@ class SinglyLinkedList:
             if pos.next is None:
                 print(pos.data)
             else:
-                print("%s -> " % pos.data.strip(), end = "")
+                print("%s " % pos.data.strip(), end = "")
             pos = pos.next
 
     def insert_last(self, data):
@@ -75,7 +75,6 @@ class SinglyLinkedList:
 
         if self.head.data == data:
             self.head = start.next
-            self.count -= 1
             return
 
         while start is not None:
@@ -87,73 +86,25 @@ class SinglyLinkedList:
             start = start.next
 
         print("Cannot delete, %s does not exist." %data)
-        
-    def delete_node(self, node):
-        if self.head is None or node is None:
-            print("Cannot delete, node does not exist.")
-            return
-
-        if self.head == node:
-            self.head = self.head.next
-            self.count -= 1
-            return
-
-        prev = None
-        start = self.head
-        while start is not None and start != node:
-            prev = start
-            start = start.next
-
-        if start is None:
-            print("Cannot delete, node does not exist.")
-        else:
-            prev.next = start.next
-            self.count -= 1
 
 def main():
+    cnt = int(input())
     mylist = SinglyLinkedList()
-    result = SinglyLinkedList()
-    num = int(input())
-
-    for _ in range(num):
+    for _ in range(cnt):
         mylist.insert_last(input())
 
+    indexing = mylist.head
 
-    while mylist.count > 0:
-        last = mylist.head
+    point = int(input())
+    data = input()
 
-        if not mylist.count:
-            break
+    if point > mylist.count - 1:
+        print("This is an empty list.")
+    else:
+        for _ in range(point):
+            indexing = indexing.next
 
-        while last.next is not None:
-            last = last.next
-
-        result.insert_last(last.data)
-        mylist.delete_node(last)
-
-        if not mylist.count:
-            break
-
-        result.insert_last(mylist.head.data)
-        mylist.delete_node(mylist.head)
-
-        if not mylist.count:
-            break
-
-        result.insert_last(mylist.head.data)
-        mylist.delete_node(mylist.head)
-
-        if not mylist.count:
-            break
-
-        last = mylist.head
-
-        while last.next is not None:
-            last = last.next
-
-        result.insert_last(last.data)
-        mylist.delete_node(last)
-
-    result.traverse()
+        mylist.insert_before(indexing.data, data)
+        mylist.traverse()
 
 main()
